@@ -3,6 +3,7 @@ import { Schema, Types, model } from "mongoose";
 interface AccountData {
   ownerId: Types.ObjectId;
   balance: number;
+  number: string;
 }
 
 interface AccountDocument extends AccountData {
@@ -20,11 +21,20 @@ const accountSchema = new Schema<AccountData>(
     balance: {
       type: Number,
       required: true,
+      default: 0,
+    },
+    number: {
+      type: String,
+      required: true,
     },
   },
   {
     timestamps: true,
     versionKey: false,
+    toObject: {
+      virtuals: true,
+      getters: true,
+    },
   }
 );
 
