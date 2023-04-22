@@ -46,6 +46,7 @@ export function signUpHandler({
       return res.status(StatusCodes.CREATED).json({
         message: "User account created successully",
         status: "success",
+        data: null
       });
     } catch (error) {
       const labelCodeMap: Record<string, StatusCodes> = {

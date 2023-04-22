@@ -48,6 +48,10 @@ const userSchema = new Schema<UserData>(
   {
     timestamps: true,
     versionKey: false,
+    toObject: {
+      virtuals: true,
+      getters: true,
+    },
   }
 );
 
