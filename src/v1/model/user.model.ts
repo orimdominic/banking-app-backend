@@ -5,6 +5,8 @@ interface UserData {
   lastName: string;
   email: string;
   passwordHash: string;
+  role: "ADMIN" | "CLIENT";
+  isVerified: boolean;
 }
 
 interface UserDocument extends UserData {
@@ -33,10 +35,23 @@ const userSchema = new Schema<UserData>(
       type: String,
       required: true,
     },
+    role: {
+      enum: ["CLIENT", "ADMIN"],
+      default: "CLIENT",
+      type: String,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
     versionKey: false,
+    toObject: {
+      virtuals: true,
+      getters: true,
+    },
   }
 );
 
