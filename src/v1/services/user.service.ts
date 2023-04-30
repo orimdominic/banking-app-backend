@@ -26,3 +26,28 @@ export async function createUser(
   const newUser = await User.create(userData);
   return newUser.toObject();
 }
+
+/**
+ * @throws ServiceError with the label USER_NOT_FOUND
+ * @throws ServiceError with the label USER_ALREADY_VERIFIED
+ */
+export async function verifyUser(
+  userId: string,
+  { User = UserModel } = {}
+) {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ServiceError("User not found", "USER_NOT_FOUND");
+  }
+
+  if (user.isVerified) {
+    throw new ServiceError("User is already verified", "USER_ALREADY_VERIFIED");
+  }
+
+  user.isVerified = true;
+
+  const updatedUser = await user.save();
+
+  return updatedUser.toObject();
+}
